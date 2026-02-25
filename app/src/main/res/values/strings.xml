@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TitanOS</string>
+    <string name="game_detection_description">TitanOS auto-detects games and Steam Link to enable GameMode.</string>
+</resources>

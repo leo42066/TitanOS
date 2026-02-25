@@ -1,28 +1,36 @@
-# TitanOS Project Overview
+# TitanOS Android Scaffold
 
-## Core Vision
-TitanOS is designed to provide a seamless and intuitive user experience while pushing the boundaries of mobile operating systems. Our vision is to create a platform that empowers users with flexibility and customization while ensuring high performance and security.
+TitanOS is a modular Android/Linux-oriented mobile OS shell designed for high-performance phones (target: **B160V Android device**). This repository now contains a working Android app scaffold implementing:
 
-## Key Features
-- **SkyView Flight Radar Lock Screen**: An innovative lock screen feature that provides users with real-time flight information and radar capabilities.
-- **TitanGameMode**: A dedicated gaming mode that optimizes performance and enhances the gaming experience.
-- **Quick-Access Phone Mode System**: An efficient phone mode that allows quick navigation and access to essential apps.
-- **Android Theme Compatibility**: Supports various themes for personalization, ensuring compatibility with a wide range of Android aesthetics.
-- **Overlay System**: A powerful overlay feature that lets applications display content over others for better multitasking.
-- **System Monitoring**: Real-time system performance monitoring tools to keep users informed about their device status.
-- **Desktop Mode**: A comprehensive desktop mode for a fully functional computing experience on mobile devices.
-- **Modular Architecture**: Built on modular components for easier updates and feature enhancements.
-- **Security & Privacy**: Advanced security features to protect user data and ensure privacy.
-- **AI Assistance**: Integrated AI capabilities to provide intelligent suggestions and improve user interaction.
+- **TitanLauncher** with app drawer + quick mode toggles
+- **SkyView Flight Radar** lock-screen activity with OpenSky data integration + orientation-aware AR radar positioning
+- **TitanGameMode** auto trigger hooks for Steam Link/game packages + performance profile hooks
+- **Overlay system** for FPS/CPU/GPU/battery + mini radar count
+- **System monitoring** service with thermal/battery drain alerts
+- **Persistent mode state** across reboot via DataStore
 
-## B160V Device Specifications
-- **Display**: 6.7 inches, OLED, 120Hz refresh rate
-- **Processor**: Octa-core, 3.0 GHz
-- **RAM**: 8 GB / 12 GB options
-- **Storage**: 128 GB / 256 GB options, expandable via microSD
-- **Camera**: Triple camera setup - 50MP wide, 12MP ultra-wide, 12MP telephoto
-- **Battery**: 5000 mAh, fast charging and wireless charging support
-- **Operating System**: TitanOS based on Android
+## Project Structure
 
----
-For more information, please visit the TitanOS [official website](#) or check out our [GitHub repository](https://github.com/leo42066/TitanOS).
+- `app/src/main/java/com/titanos/feature/launcher`: launcher UI + app discovery
+- `app/src/main/java/com/titanos/feature/skyview`: radar lock screen + aircraft feed
+- `app/src/main/java/com/titanos/feature/gamemode`: game mode state and activation use case
+- `app/src/main/java/com/titanos/feature/overlay`: overlay coordinator
+- `app/src/main/java/com/titanos/feature/monitoring`: live system telemetry state + alerts
+- `app/src/main/java/com/titanos/service`: background services for monitoring and game detection
+- `app/src/main/java/com/titanos/data`: repositories for modes, aircraft APIs, and system telemetry
+- `app/src/main/java/com/titanos/domain`: clean interfaces and use cases
+
+## Notes
+
+- APIs that require ROM-level privilege (CPU/GPU governor tuning, aggressive process killing, global overlay injection) are provided as integration hooks in repository methods.
+- OpenSky feed refreshes every 5 seconds.
+- `MainActivity` is registered as both launcher and `HOME` category for testing a custom launcher flow.
+
+## Build
+
+Use Android Studio (Giraffe+/AGP 8.4+) and run app module on Android 10+ device:
+
+1. Open project
+2. Sync Gradle
+3. Build and install `app`
+4. Grant overlay/location/accessibility permissions to test all modules
